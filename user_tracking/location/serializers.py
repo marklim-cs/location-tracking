@@ -4,19 +4,19 @@ from .models import UserLocation
 
 
 class UserLocationSerializer(serializers.ModelSerializer):
-    longtitude = serializers.FloatField(write_only=True)
+    longitude = serializers.FloatField(write_only=True)
     latitude = serializers.FloatField(write_only=True)
 
     class Meta:
         model = UserLocation
-        fields = ["user", "longtitude", "latitude", "last_update"]
+        fields = ["user", "longitude", "latitude", "last_update"]
         read_only_field = ["last_update"]
 
     def create(self, validated_data):
-        longtitude = validated_data.pop("longtitude")
+        longitude = validated_data.pop("longitude")
         latitude = validated_data.pop("latitude")
         user = validated_data.get("user")
-        point = Point(longtitude, latitude, srid=4326)
+        point = Point(longitude, latitude, srid=4326)
 
         try:
             user_location = UserLocation.objects.get(user=user)
